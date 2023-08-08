@@ -1,7 +1,35 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import axios from 'axios'
+import React, { useState} from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-function Register() {
+function Register(props) {
+  const [user,setUser] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    password: ""
+  })
+  const navigate = useNavigate()
+
+  const readValue = async (e) => {
+    const { name, value } = e.target
+    setUser({...user, [name]: value })
+  }
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try{
+        console.log(`user =`, user)
+        await axios.post(`/api/auth/register`,user)
+        .then(res =>{
+          toast.success(res.data.msg)
+          navigate('/login')
+        }).catch(err => toast.error(err.response.data.msg))
+    }catch (err) {
+      toast.error(err.message)
+    }
+  }
+
   return (
     <div className="container align-items-center">
       <div className="row mt-5">
@@ -24,23 +52,23 @@ function Register() {
 
                 <div className="col-md-6 col-lg-6 col-sm-12 p-5 bg-light text-center">
                   <div className="title">
-                    <h5 className="display-5 text-success">Login</h5>
+                    <h5 className="display-5 text-success">Register</h5>
                   </div>
-                  <form autoComplete="off">
+                  <form autoComplete="off" onSubmit={submitHandler}>
                   <div className='form-group mt-4'>
-                      <input type="text" name="name" id="name" placeholder='name' className='form-control' required />
+                      <input type="text" name="name" value={user.name} onChange={readValue} id="name" placeholder='name' className='form-control' required />
                     </div>
                     <div className='form-group mt-2'>
-                      <input type="email" name="email" id="email" placeholder='Email' className='form-control' required />
+                      <input type="email" name="email" value={user.email} onChange={readValue} id="email" placeholder='Email' className='form-control' required />
                     </div>
                     <div className='form-group mt-4'>
-                      <input type="number" name="mobile" id="mobile" placeholder='mobile' className='form-control' required />
+                      <input type="number" name="mobile" value={user.mobile} onChange={readValue} id="mobile" placeholder='mobile' className='form-control' required />
                     </div>
                     <div className='form-group mt-2'>
-                      <input type="password" name="password" id="password" placeholder='Password' className='form-control' required />
+                      <input type="password" name="password" value={user.password} onChange={readValue} id="password" placeholder='Password' className='form-control' required />
                     </div>
                     <div className="form-group mt-2">
-                      <input type="submit" value="Register" className='"btn brn-success' />
+                      <input type="submit" value="Register" className='btn btn-success' />
                     </div>
                   </form>
 
