@@ -13,9 +13,15 @@ import Services from './component/Default/Services'
 import AdminDashboard from './component/Admin/AdminDashboard'
 import DoctorDashboard from './component/Doctor/DoctorDashboard'
 import UserDashboard from './component/User/UserDashboard'
-import AdminLogin from './component/Admin/AdminLogin'
 import Pnf from './component/Default/Pnf'
 import About from './component/Default/About'
+import UserProfile from './component/User/UserProfile'
+import DoctorProfile from './component/Doctor/DoctorProfile'
+import AdminProfile from './component/Admin/AdminProfile'
+import Slots from './component/Doctor/slots/Slots'
+import AddSlots from './component/Doctor/slots/AddSlots'
+import UpdateSlots from './component/Doctor/slots/UpdateSlots'
+
 
 function App() {
   const context = useContext(AuthContext)
@@ -38,6 +44,7 @@ function App() {
                   <React.Fragment>
                      <Route path={`/services`} element={<Services/>}/>
                      <Route path={`/user/dashboard`} element={<UserDashboard/>}/>
+                     <Route path={`/user/profile`} element={<UserProfile/>}/>
                   </React.Fragment>
                 ): null
               }
@@ -45,12 +52,21 @@ function App() {
                 isAdmin && token ? (
                   <React.Fragment>
                      <Route path={`/admin/dashboard`} element={<AdminDashboard/>}/>
+                     <Route path={`/admin/profile`} element={<AdminProfile/>}/>
                   </React.Fragment>
                 ) : null
               }
               {
                 isDoctor && token ? (
-                  <Route path={`/doctor/dashboard`} element={<DoctorDashboard/>}/>
+                  <React.Fragment>
+                    <Route path={`/doctor/dashboard`} element={<DoctorDashboard/>}/>
+                    <Route path={`/doctor/slots`} element={<Slots/>}/>
+                    <Route path={`/doctor/slots/add`} element={<AddSlots/>}/>
+                    <Route path={`/doctor/slots/edit/:id`} element={<UpdateSlots/>}/>
+                  <Route path={`/doctor/profile`} element={<DoctorProfile/>}/>
+                  
+     
+                  </React.Fragment>
                 ) : null
               }
              
@@ -60,7 +76,6 @@ function App() {
               <Route path={`/contact`} element={<Contact/>}/>
               <Route path={`/register`} element={<Register/>}/>
               <Route path={`/login`} element={token ? <Navigate to={`/`}/> : <Login/>}/>
-              <Route path={`/admin/login`} element={<AdminLogin/>}/>    
               <Route path={`/*`} element={<Pnf/>}/>
 
        </Routes>

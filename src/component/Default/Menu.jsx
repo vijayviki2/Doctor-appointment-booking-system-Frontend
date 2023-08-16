@@ -93,6 +93,10 @@ function Menu(props) {
                                <NavLink to={`/doctor/dashboard`} className="dropdown-item">Dashboard</NavLink>
                                </li>
                                <li>
+                               <NavLink to={`/doctor/slots`} className="dropdown-item">Slots</NavLink>
+                               </li>
+                               
+                               <li>
                                <NavLink to={`/doctor/profile`} className="dropdown-item">Profile</NavLink>
                                </li>
                             </React.Fragment>
